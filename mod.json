@@ -1,5 +1,5 @@
 {
-	"geode": "4.6.2",
+	"geode": "4.10.0",
 	"gd": {
 		"win": "2.2074",
 		"android": "2.2074",
@@ -12,6 +12,12 @@
 			"name": "Glow Layering Fix",
 			"default": true,
 			"description": "Does some silly stuff to fix the Ship/UFO glow overlaying the entire cube in the garage, making it look more accurate to in-game. \n\n<cr>Shouldn't cause any issues, but disable if you encounter any with icon coloring, layering or similar.</c>"
+		},
+		"glow-iconic-fix": {
+			"type": "bool",
+			"name": "Glow Layering Fix - Megahack Compat",
+			"default": false,
+			"description": "Attempt at adding compatibility with Megahack v9's Iconic Feature. \n\nThis switches from hiding the Glow Sprite on the Player Icon to setting its scale to 0, since Megahack forces it to be visible, breaking the normal fix. \n\nIf enabled, this, unfortunately, will not display whatever glow Color/Effect you have set in Megahack, as the glow sprite is still being hidden. Therefore, you will need to decide whether you prefer Iconic's live garage preview or the Glow Layering fix. \n\n<cr>Up to you if you wanna enable this! This is mainly if you don't use Iconic much and it breaks the Glow Preview for normal colors.</c>"
 		},
 		"reload-btn": {
 			"type": "bool",
@@ -32,11 +38,11 @@
 		]
 	},
 	"links": {
-		"source": "https://github.com/DeepRsnanceX/Icon-Preview"
+		"source": "https://github.com/Asterveila/Icon-Preview"
 	},
 	"id": "saritahhh.icon_preview",
 	"name": "Icon Preview",
-	"version": "v1.0.1",
+	"version": "v1.0.2",
 	"developer": "Saritahhh",
 	"description": "Preview your cube's position in the garage!"
 }

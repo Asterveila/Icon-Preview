@@ -137,6 +137,7 @@ void IconPreview::updateDualJetpackGlow(SimplePlayer* glowPlayer) {
 
 auto doGlowFix = Mod::get()->getSettingValue<bool>("glow-fix");
 auto enableReloadBtn = Mod::get()->getSettingValue<bool>("reload-btn");
+auto glowIconicFix = Mod::get()->getSettingValue<bool>("glow-iconic-fix");
 
 $on_mod(Loaded) {
     listenForSettingChanges("glow-fix", [](bool value) {
@@ -144,6 +145,9 @@ $on_mod(Loaded) {
     });
     listenForSettingChanges("reload-btn", [](bool value) {
         enableReloadBtn = value;
+    });
+    listenForSettingChanges("glow-iconic-fix", [](bool value) {
+        glowIconicFix = value;
     });
 }
 
@@ -199,10 +203,12 @@ class $modify(IPGarageLayer, GJGarageLayer){
                     fields->fakeGlowDisplay->setVisible(true);
                     fields->fakeGlowDisplay->m_outlineSprite->setVisible(true);
                     m_playerObject->m_outlineSprite->setVisible(false);
+                    if (glowIconicFix) m_playerObject->m_outlineSprite->setScale(0.f);
                 }
             } else {
                 fields->fakeGlowDisplay->setVisible(false);
                 m_playerObject->m_outlineSprite->setVisible(manager->getPlayerGlow());
+                if (m_playerObject->m_outlineSprite->getScale() < 1.f) m_playerObject->m_outlineSprite->setScale(1.f);
             }
 
             if (m_selectedIconType == IconType::Jetpack || lastChosenIcon == IconType::Jetpack) {
@@ -373,6 +379,7 @@ class $modify(IPGarageLayer, GJGarageLayer){
                     fields->fakeGlowDisplay->setVisible(true);
                     fields->fakeGlowDisplay->m_outlineSprite->setVisible(true);
                     m_playerObject->m_outlineSprite->setVisible(false);
+                    if (glowIconicFix) m_playerObject->m_outlineSprite->setScale(0.f);
                 } else {
                     fields->fakeGlowDisplay->setVisible(false);
                 }
@@ -513,10 +520,12 @@ class $modify(IPGarageLayer, GJGarageLayer){
                     fields->fakeGlowDisplay->setVisible(true);
                     fields->fakeGlowDisplay->m_outlineSprite->setVisible(true);
                     m_playerObject->m_outlineSprite->setVisible(false);
+                    if (glowIconicFix) m_playerObject->m_outlineSprite->setScale(0.f);
                 }
             } else {
                 fields->fakeGlowDisplay->setVisible(false);
                 m_playerObject->m_outlineSprite->setVisible(manager->getPlayerGlow());
+                if (m_playerObject->m_outlineSprite->getScale() < 1.f) m_playerObject->m_outlineSprite->setScale(1.f);
             }
 
             if (m_selectedIconType == IconType::Jetpack || lastChosenIcon == IconType::Jetpack) {
@@ -646,16 +655,19 @@ class $modify(IPGarageLayer, GJGarageLayer){
                     fields->fakeGlowDisplay->setVisible(true);
                     fields->fakeGlowDisplay->m_outlineSprite->setVisible(true);
                     m_playerObject->m_outlineSprite->setVisible(false);
+                    if (glowIconicFix) m_playerObject->m_outlineSprite->setScale(0.f);
                 }
             } else if (dontHideOnSpecials && validLastIcon) {
                 if (manager->getPlayerGlow()) {
                     fields->fakeGlowDisplay->setVisible(true);
                     fields->fakeGlowDisplay->m_outlineSprite->setVisible(true);
                     m_playerObject->m_outlineSprite->setVisible(false);
+                    if (glowIconicFix) m_playerObject->m_outlineSprite->setScale(0.f);
                 }
             } else {
                 fields->fakeGlowDisplay->setVisible(false);
                 m_playerObject->m_outlineSprite->setVisible(manager->getPlayerGlow());
+                if (m_playerObject->m_outlineSprite->getScale() < 1.f) m_playerObject->m_outlineSprite->setScale(1.f);
             }
         
         }

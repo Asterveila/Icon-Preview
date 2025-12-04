@@ -1,3 +1,6 @@
+# 1.0.2
+- Added a setting to add basic compatibility with Megahack v9's Iconic feature. (That's the name of the feature i'm not being funny)
+
 # 1.0.1
 - Added **Jetpack Preview**: Cube now shows up on Jetpacks too!
 - Added *Separate Dual Icons* Compatibility.
