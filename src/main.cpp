@@ -2,8 +2,10 @@
 #include "Geode/utils/cocos.hpp"
 #include <Geode/binding/GameManager.hpp>
 #include <Geode/binding/SimplePlayer.hpp>
-#include <hiimjustin000.more_icons/include/MoreIcons.hpp>
 #include "helper.hpp"
+
+#define MORE_ICONS_EVENTS
+#include <hiimjustin000.more_icons/include/MoreIcons.hpp>
 
 // -- JETPACK PREVIEW INFO --
 //X: +6 -------> 9
@@ -19,7 +21,7 @@ void IconPreview::updatePreviewCube(SimplePlayer* player) {
     auto manager = GameManager::sharedState();
 
     player->updatePlayerFrame(manager->getPlayerFrame(), IconType::Cube);
-    MoreIcons::updateSimplePlayer(player, IconType::Cube);
+    more_icons::updateSimplePlayer(player, IconType::Cube, false);
     player->setColor(manager->colorForIdx(manager->getPlayerColor()));
     player->setSecondColor(manager->colorForIdx(manager->getPlayerColor2()));
     player->setGlowOutline(manager->colorForIdx(manager->getPlayerGlowColor()));
@@ -32,7 +34,7 @@ void IconPreview::updateShipGlow(SimplePlayer* glowPlayer) {
     auto manager = GameManager::sharedState();
 
     glowPlayer->updatePlayerFrame(manager->getPlayerShip(), IconType::Ship);
-    MoreIcons::updateSimplePlayer(glowPlayer, IconType::Ship);
+    more_icons::updateSimplePlayer(glowPlayer, IconType::Ship, false);
     glowPlayer->setGlowOutline(manager->colorForIdx(manager->getPlayerGlowColor()));
     glowPlayer->enableCustomGlowColor(manager->colorForIdx(manager->getPlayerGlowColor()));
     if (!manager->getPlayerGlow()) {
@@ -43,7 +45,7 @@ void IconPreview::updateBirdGlow(SimplePlayer* glowPlayer) {
     auto manager = GameManager::sharedState();
 
     glowPlayer->updatePlayerFrame(manager->getPlayerBird(), IconType::Ufo);
-    MoreIcons::updateSimplePlayer(glowPlayer, IconType::Ufo);
+    more_icons::updateSimplePlayer(glowPlayer, IconType::Ufo, false);
     glowPlayer->setGlowOutline(manager->colorForIdx(manager->getPlayerGlowColor()));
     glowPlayer->enableCustomGlowColor(manager->colorForIdx(manager->getPlayerGlowColor()));
     if (!manager->getPlayerGlow()) {
@@ -54,7 +56,7 @@ void IconPreview::updateJetpackGlow(SimplePlayer* glowPlayer) {
     auto manager = GameManager::sharedState();
 
     glowPlayer->updatePlayerFrame(manager->getPlayerJetpack(), IconType::Jetpack);
-    MoreIcons::updateSimplePlayer(glowPlayer, IconType::Jetpack);
+    more_icons::updateSimplePlayer(glowPlayer, IconType::Jetpack, false);
     glowPlayer->setGlowOutline(manager->colorForIdx(manager->getPlayerGlowColor()));
     glowPlayer->enableCustomGlowColor(manager->colorForIdx(manager->getPlayerGlowColor()));
     if (!manager->getPlayerGlow()) {
@@ -77,7 +79,7 @@ void IconPreview::updateDualPreviewCube(SimplePlayer* player) {
     int dualCubeFrame = dualMod->getSavedValue<int64_t>("cube");
 
     player->updatePlayerFrame(dualCubeFrame, IconType::Cube);
-    MoreIcons::updateSimplePlayer(player, IconType::Cube, true);
+    more_icons::updateSimplePlayer(player, IconType::Cube, true);
     player->setColor(manager->colorForIdx(dualColor1));
     player->setSecondColor(manager->colorForIdx(dualColor2));
     player->setGlowOutline(manager->colorForIdx(glowColor));
@@ -95,7 +97,7 @@ void IconPreview::updateDualShipGlow(SimplePlayer* glowPlayer) {
     int dualShipFrame = dualMod->getSavedValue<int64_t>("ship");
 
     glowPlayer->updatePlayerFrame(dualShipFrame, IconType::Ship);
-    MoreIcons::updateSimplePlayer(glowPlayer, IconType::Ship, true);
+    more_icons::updateSimplePlayer(glowPlayer, IconType::Ship, true);
     glowPlayer->setGlowOutline(manager->colorForIdx(glowColor));
     glowPlayer->enableCustomGlowColor(manager->colorForIdx(glowColor));
     if (!dualHasGlow) {
@@ -111,7 +113,7 @@ void IconPreview::updateDualBirdGlow(SimplePlayer* glowPlayer) {
     int dualBirdFrame = dualMod->getSavedValue<int64_t>("bird");
 
     glowPlayer->updatePlayerFrame(dualBirdFrame, IconType::Ufo);
-    MoreIcons::updateSimplePlayer(glowPlayer, IconType::Ufo, true);
+    more_icons::updateSimplePlayer(glowPlayer, IconType::Ufo, true);
     glowPlayer->setGlowOutline(manager->colorForIdx(glowColor));
     glowPlayer->enableCustomGlowColor(manager->colorForIdx(glowColor));
     if (!dualHasGlow) {
@@ -127,7 +129,7 @@ void IconPreview::updateDualJetpackGlow(SimplePlayer* glowPlayer) {
     int dualJetpackFrame = dualMod->getSavedValue<int64_t>("jetpack");
 
     glowPlayer->updatePlayerFrame(dualJetpackFrame, IconType::Jetpack);
-    MoreIcons::updateSimplePlayer(glowPlayer, IconType::Jetpack, true);
+    more_icons::updateSimplePlayer(glowPlayer, IconType::Jetpack, true);
     glowPlayer->setGlowOutline(manager->colorForIdx(glowColor));
     glowPlayer->enableCustomGlowColor(manager->colorForIdx(glowColor));
     if (!dualHasGlow) {
@@ -140,13 +142,13 @@ auto enableReloadBtn = Mod::get()->getSettingValue<bool>("reload-btn");
 auto glowIconicFix = Mod::get()->getSettingValue<bool>("glow-iconic-fix");
 
 $on_mod(Loaded) {
-    listenForSettingChanges("glow-fix", [](bool value) {
+    listenForSettingChanges<bool>("glow-fix", [](bool value) {
         doGlowFix = value;
     });
-    listenForSettingChanges("reload-btn", [](bool value) {
+    listenForSettingChanges<bool>("reload-btn", [](bool value) {
         enableReloadBtn = value;
     });
-    listenForSettingChanges("glow-iconic-fix", [](bool value) {
+    listenForSettingChanges<bool>("glow-iconic-fix", [](bool value) {
         glowIconicFix = value;
     });
 }
@@ -223,7 +225,7 @@ class $modify(IPGarageLayer, GJGarageLayer){
             lastDualMode = SDL->getSavedValue<int64_t>("lastmode");
 
             dualHasGlow = SDL->getSavedValue<bool>("glow");
-            SimplePlayer* p2Icon = as<SimplePlayer*>(this->getChildByID("player2-icon"));
+            SimplePlayer* p2Icon = static_cast<SimplePlayer*>(this->getChildByID("player2-icon"));
 
             IconPreview::updateDualPreviewCube(fields->m_dualPreview);
 
@@ -394,7 +396,7 @@ class $modify(IPGarageLayer, GJGarageLayer){
         if (isSeparateLoaded) {
             lastDualMode = SDL->getSavedValue<int64_t>("lastmode");
 
-            SimplePlayer* p2Icon = as<SimplePlayer*>(this->getChildByID("player2-icon"));
+            SimplePlayer* p2Icon = static_cast<SimplePlayer*>(this->getChildByID("player2-icon"));
             dualPosX = player1PosWhenDualIcons + winSize.width / 6;
             dualPosY = m_playerObject->getPositionY();
             dualShipPosY = m_playerObject->getPositionY() + 16.f;
@@ -540,7 +542,7 @@ class $modify(IPGarageLayer, GJGarageLayer){
             lastDualMode = SDL->getSavedValue<int64_t>("lastmode");
 
             dualHasGlow = SDL->getSavedValue<bool>("glow");
-            SimplePlayer* p2Icon = as<SimplePlayer*>(this->getChildByID("player2-icon"));
+            SimplePlayer* p2Icon = static_cast<SimplePlayer*>(this->getChildByID("player2-icon"));
 
             IconPreview::updateDualPreviewCube(fields->m_dualPreview);
 

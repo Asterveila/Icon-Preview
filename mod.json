@@ -1,10 +1,10 @@
 {
-	"geode": "4.10.0",
+	"geode": "5.4.1",
 	"gd": {
-		"win": "2.2074",
-		"android": "2.2074",
-		"mac": "2.2074",
-		"ios": "2.2074"
+		"win": "2.2081",
+		"android": "2.2081",
+		"mac": "2.2081",
+		"ios": "2.2081"
 	},
 	"settings": {
 		"glow-fix": {
@@ -17,7 +17,7 @@
 			"type": "bool",
 			"name": "Glow Layering Fix - Megahack Compat",
 			"default": false,
-			"description": "Attempt at adding compatibility with Megahack v9's Iconic Feature. \n\nThis switches from hiding the Glow Sprite on the Player Icon to setting its scale to 0, since Megahack forces it to be visible, breaking the normal fix. \n\nIf enabled, this, unfortunately, will not display whatever glow Color/Effect you have set in Megahack, as the glow sprite is still being hidden. Therefore, you will need to decide whether you prefer Iconic's live garage preview or the Glow Layering fix. \n\n<cr>Up to you if you wanna enable this! This is mainly if you don't use Iconic much and it breaks the Glow Preview for normal colors.</c>"
+			"description": "Attempt at adding compatibility with Megahack v9's Iconic Feature. (like... the one called Iconic... not a VERY known feature) \n\nThis switches from hiding the Glow Sprite on the Player Icon to setting its scale to 0, since Megahack forces it to be visible, breaking the normal fix. \n\nIf enabled, this, unfortunately, will not display whatever glow Color/Effect you have set in Megahack, as the glow sprite is still being hidden. Therefore, you will need to decide whether you prefer Iconic's live garage preview or the Glow Layering fix. \n\n<cr>Up to you if you wanna enable this! This is mainly if you don't use Iconic much and it breaks the Glow Preview for normal colors.</c>"
 		},
 		"reload-btn": {
 			"type": "bool",
@@ -28,8 +28,8 @@
 	},
 	"dependencies": {
         "hiimjustin000.more_icons": {
-            "version": ">=v1.14.0",
-            "importance": "suggested"
+            "version": ">=v2.0.0",
+            "required": false
         }
     },
 	"resources": {
@@ -42,7 +42,7 @@
 	},
 	"id": "saritahhh.icon_preview",
 	"name": "Icon Preview",
-	"version": "v1.0.2",
+	"version": "v1.1.0",
 	"developer": "Saritahhh",
 	"description": "Preview your cube's position in the garage!"
 }
